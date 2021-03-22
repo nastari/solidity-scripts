@@ -34,7 +34,7 @@ contract TempAdmin is Admin {
     /* AUDIT /*
       The method has already been called within the inherited inheritance, 
       possibility of behavior problems, BUGS and anomalies
-      SEVERITY: HIGH
+      SEVERITY: WARNING
     */////////*
     function isAdmin() internal view returns (bool) {
         return administratable && super.isAdmin();
@@ -43,11 +43,12 @@ contract TempAdmin is Admin {
 
 
 
-// * AUDIT
+/* AUDIT /*
 // Multiple Inheritance  - C3 linearization Analysis
 // the code is executed in this order:
 // kill → MultiAdmin.isAdmin → TempAdmin.isAdmin → Admin.isAdmin
-///////
+// SEVERITY: WARNING
+/*//////*/
 contract Bank is TempAdmin, MultiAdmin {
     mapping(address => uint256) public balanceOf;
 
@@ -66,13 +67,15 @@ contract Bank is TempAdmin, MultiAdmin {
 
 
     function kill() external {
-        /* AUDIT
+        /*  AUDIT /*
         Which contract's of that function is executed?
         This is a bad order, leading to checking the equivalent of this:
         extraAdmin[msg.sender] || (administratable && msg.sender == admin)
-        // Non admins can acess that method
+        but state  extraAdmin[msg.sender], does not change for no more administrators
+        Non admins can acess that method
+        SEVERITY: CRITICAL
         ***BUG FOUND***
-        */
+        *//////////*
         require(isAdmin());
         selfdestruct(msg.sender);
     }
