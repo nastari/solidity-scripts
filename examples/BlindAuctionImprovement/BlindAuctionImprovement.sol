@@ -43,7 +43,7 @@ contract BlindAuctionImprovement {
    
    
 //  bytes32 _index_mistery = keccak256(abi.encodePacked( index, secret )) 
-  function choice_bid( bytes32 _index_mistery ) public {
+  function bid_choice( bytes32 _index_mistery ) public {
     require( block.timestamp < limit_time_to_bid, "Auction is over");
       choice[msg.sender] = _index_mistery;
   } 
