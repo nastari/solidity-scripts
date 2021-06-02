@@ -17,7 +17,7 @@ contract BlindAuctionImprovement {
   uint public limit_time_to_bid;
   uint public limit_time_to_refund;
   
-  mapping( address => uint ) public funds_not_yet_reclaimer;
+  mapping( address => uint ) public funds_not_yet_recovered;
   bool public ended = false;
   
   constructor( address _beneficiary ) {
@@ -73,7 +73,7 @@ contract BlindAuctionImprovement {
    function is_winner( address bidder, uint value ) internal returns(bool){
       
        if( value > highest_bid ){
-            funds_not_yet_reclaimer[highest_bidder] = highest_bid;   
+            funds_not_yet_recovered[highest_bidder] = highest_bid;   
             highest_bidder = bidder;
             highest_bid = value;
             return true;
@@ -83,8 +83,8 @@ contract BlindAuctionImprovement {
    }
    
     function withdraw() public {
-       uint funds = funds_not_yet_reclaimer[msg.sender];
-        funds_not_yet_reclaimer[msg.sender] = 0;
+       uint funds = funds_not_yet_recovered[msg.sender];
+        funds_not_yet_recovered[msg.sender] = 0;
         payable(msg.sender).transfer(funds);
    }
    
