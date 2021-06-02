@@ -40,8 +40,6 @@ contract SimpleAuction {
         uint bid_ = bids[msg.sender];
         bids[msg.sender] = 0;
         payable(msg.sender).transfer(bid_);
-        // se nao conseguiu transferir, devolver o valor a variavel bids[msg.sender]
-        // para usuário tentar no futuro
     }    
     
     function auctionEnded() external {
@@ -50,7 +48,7 @@ contract SimpleAuction {
         uint bid_ =bids[winner];
         bids[winner] = 0;
         payable(beneficiary).transfer(bid_);
-        //  payable(beneficiary).transfer(bids[winner]);
     }
     
 }
+
