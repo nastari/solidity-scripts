@@ -66,8 +66,14 @@ contract BlindAuctionImprovement {
       }
       
       choice[msg.sender] = bytes32(0);
-      payable(msg.sender).transfer(refund);
+      
+ //   EIP-1884: Repricing for trie-size-dependent opcodes, Instanbul Update
+ //   payable(msg.sender).transfer(refund); -> avoided
+
+      (bool success, ) = payable(msg.sender).call{ value: refund }("");
+      require(success,"Transfer failed");
    }
+   
    
    
    function is_winner( address bidder, uint value ) internal returns(bool){
@@ -85,7 +91,8 @@ contract BlindAuctionImprovement {
     function withdraw() public {
        uint funds = funds_not_yet_recovered[msg.sender];
         funds_not_yet_recovered[msg.sender] = 0;
-        payable(msg.sender).transfer(funds);
+        (bool success ,) = payable(msg.sender).call{value: funds}("");
+        require(success,"Transfer failed");
    }
    
    function gain() public {
@@ -94,7 +101,8 @@ contract BlindAuctionImprovement {
        require( ended == false, "Auction already ended");
        
        ended = true;
-       payable(msg.sender).transfer(address(this).balance);
+       (bool success,) = payable(msg.sender).call{value: address(this).balance}("");
+       require(success, "Transfer failed");
    }
    
 
