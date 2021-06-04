@@ -49,6 +49,8 @@ contract BlindAuctionImprovement {
   } 
   
   
+//   https://docs.soliditylang.org/en/v0.8.4/common-patterns.html#withdrawal-pattern
+
    function reveal( uint index_, string memory secret_ ) public {
       require( block.timestamp > limit_time_to_bid, "Auction is not over");
       require( block.timestamp < limit_time_to_refund, "Reveal is over");
@@ -88,6 +90,8 @@ contract BlindAuctionImprovement {
        return false;
    }
    
+
+//    https://docs.soliditylang.org/en/v0.8.4/common-patterns.html#withdrawal-pattern
     function withdraw() public {
        uint funds = funds_not_yet_recovered[msg.sender];
         funds_not_yet_recovered[msg.sender] = 0;
