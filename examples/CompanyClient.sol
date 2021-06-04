@@ -1,6 +1,6 @@
 pragma solidity ^0.8.4;
 
-// Did you noticed any bug ? Make a Pull Request!
+// Did you notice any bug ? Make a Pull Request!
 contract Company {
     
     address public administration;
