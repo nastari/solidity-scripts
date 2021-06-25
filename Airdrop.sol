@@ -19,7 +19,7 @@ contract Token {
     } 
 }
 
-contract Stream {
+contract Airdrop {
     
     Token token;
     using Address for address;
